@@ -89,22 +89,96 @@ void tutupSemuaTab(CNode*& head) {
 
 // SOAL 1
 bool bukaHalaman(DNode*& head, DNode*& tail, int nomor) {
-    return false;
+    DNode *nodebaru = new DNode();
+    nodebaru->data = nomor;
+    nodebaru->next = nullptr;
+    if (head == nullptr) {
+        nodebaru->prev = nullptr;
+        head = nodebaru;
+        tail = nodebaru;
+        return true;
+    }
+    nodebaru->prev = tail;
+    tail->next = nodebaru;
+    tail = nodebaru;
+    return true;
 }
 
 // SOAL 2
 int riwayatMundur(DNode* tail, int* keluaran) {
-    return 0;
+    int jumlah = 0;
+    DNode* temp = tail;
+    if (temp == nullptr) {
+        return jumlah;
+    }
+    while (temp != nullptr) {
+        keluaran[jumlah] = temp->data;
+        temp = temp->prev;
+        jumlah++;
+    }
+    return jumlah;
 }
 
 // SOAL 3
 bool hapusHalaman(DNode*& head, DNode*& tail, int nomor) {
-    return false;
+    if (head == nullptr) {
+        return false;
+    }
+
+    DNode *temp = head;
+    if (temp->data == nomor) {
+        head = head->next;
+        if (head != nullptr) {
+            head->prev = nullptr;
+        }
+        else {
+            tail = nullptr;
+        }
+        delete temp; 
+        return true;
+    }
+
+    while (temp != nullptr && temp->data != nomor) {
+        temp = temp->next;
+    }
+
+    if (temp == nullptr) {
+        return false;
+    }
+
+    if (temp == tail) {
+        tail = temp->prev;
+        if (tail != nullptr) {
+            tail->next = nullptr;
+        }
+        delete temp;
+        return true;
+    }
+
+    temp->prev->next = temp->next;
+    temp->next->prev = temp->prev;
+    delete temp;
+    return true;
 }
 
 // SOAL 4
 bool bukaTab(CNode*& head, int nomor) {
-    return false;
+    CNode* nodebaru = new CNode();
+    nodebaru->data = nomor;
+
+    if (head == nullptr) {
+        head = nodebaru;
+        nodebaru->next = head;
+        return true;
+    }
+
+    CNode* temp = head;
+    while (temp->next != head) {
+        temp = temp->next;
+    }
+    temp->next = nodebaru;
+    nodebaru->next = head;
+    return true;
 }
 
 // =============================================================================
